@@ -1,14 +1,28 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../redux/cart/action';
+import {  getProducts } from '../redux/products/action';
+import { addToCart } from '../redux/cart/action';
+import Swal from 'sweetalert2';
 
 const Products = () => {
     const {products} = useSelector((state) => state.product)
+
     const dispatch = useDispatch()
+    const handleAddToCart = (product) => {
+         dispatch(addToCart(product));
+         Swal.fire({
+            title: "Product added",
+            icon: "success",
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 3000,
+            toast: true,
+            position: 'top',
+        });
+    }
     useEffect(() => {
         dispatch(getProducts())
     }, [dispatch])
-    console.log(products);
   return (
 
     <div className="container">
@@ -25,7 +39,7 @@ const Products = () => {
                         </p>
                     </div>
                     <div className="card-footer d-flex justify-content-between">
-                        <button className="btn btn-sm btn-outline-success">
+                        <button onClick={() => handleAddToCart(product)} className="btn btn-sm btn-outline-success">
                             Add to cart
                         </button>
                         <span>{product.price}</span>
