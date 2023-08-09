@@ -1,4 +1,4 @@
-import { ADD_TO_CART, DECREMENT_TO_CART, INCREMENT_TO_CART } from './actionType'
+import { ADD_TO_CART, CLEAR_CART, DECREMENT_TO_CART, DELETE_FROM_CART, INCREMENT_TO_CART } from './actionType'
 
 export const addToCart  = (product) => {
      return {
@@ -17,4 +17,15 @@ export const decrement  = (productId) => {
        type: DECREMENT_TO_CART,
        payload: productId
     }
+}
+export const deleteFromCart  = (productId) => {
+   return {
+      type: DELETE_FROM_CART,
+      payload: productId
+   }
+}
+export const clearCart  = () => {
+   return {
+      type: CLEAR_CART,
+   }
 }

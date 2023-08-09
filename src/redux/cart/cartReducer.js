@@ -1,4 +1,4 @@
-import { ADD_TO_CART, DECREMENT_TO_CART, INCREMENT_TO_CART } from './actionType'
+import { ADD_TO_CART, CLEAR_CART, DECREMENT_TO_CART, DELETE_FROM_CART, INCREMENT_TO_CART } from './actionType'
 const initialCartState = {
    cart : []
 }
@@ -6,13 +6,13 @@ const cartReducer = (state = initialCartState, action) => {
      switch(action.type){
         case ADD_TO_CART:
             const hasProduct = state.cart.find(item => item.id === action.payload.id) ? true : false;
-            state.cart = hasProduct ? state.cart.map(item => item.id === action.payload.id ? {...item, quantity: item.quantity+1} : item ) : [{...state.cart, ...action.payload, quantity: 1}]
+            state.cart = hasProduct ? state.cart.map(item => item.id === action.payload.id ? {...item, quantity: item.quantity+1} : item ) : [...state.cart, {...action.payload, quantity: 1}]
         return{
              ...state,
              cart: state.cart
         }
         case INCREMENT_TO_CART:
-            state.cart.map(item => item.id === action.payload ? {...item, quantity: item.quantity+1} : item );
+            state.cart = state.cart.map(item => item.id === action.payload ? {...item, quantity: item.quantity+1} : item );
             return{
                 ...state,
                 cart: state.cart
@@ -23,6 +23,17 @@ const cartReducer = (state = initialCartState, action) => {
             return{
                 ...state,
                 cart: state.cart
+           }
+           case DELETE_FROM_CART:
+            state.cart = state.cart.filter(item => item.id !== action.payload);
+            return{
+                ...state,
+                cart: state.cart
+           }
+           case CLEAR_CART:
+            return{
+                ...state,
+                cart: []
            }
         default:
             return state;
